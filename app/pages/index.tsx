@@ -1,4 +1,5 @@
 import {
+  Table,
   Button,
   DatePicker,
   Form,
@@ -6,10 +7,14 @@ import {
   Select,
   Slider,
   Switch,
+  Badge,
+  Tag
 } from 'antd'
 import type { DatePickerProps } from 'antd'
-import { SmileFilled } from '@ant-design/icons'
+import { ExperimentOutlined, SmileFilled } from '@ant-design/icons'
 import Link from 'next/link'
+import { useState } from 'react'
+import type { ColumnsType } from 'antd/es/table';
 
 const FormItem = Form.Item
 const Option = Select.Option
@@ -19,6 +24,100 @@ const content = {
 }
 
 export default function Home() {
+
+  interface DataType {
+    key: string;
+    id: string;
+    timestamp_added: number;
+    last_tx_timestamp: string;
+    last_tx_hash: string;
+    status: string;
+  }
+
+
+    const [tableLogsAntd, setTableLogsAntd] = useState([]);
+    // Keep track of table collection-specific logs
+    const [tableCollectionLogsAntd, setTableCollectionLogsAntd] = useState([]);
+
+
+
+  
+  const columns: ColumnsType<DataType> = [
+    {
+      title: 'Contract Address',
+      dataIndex: 'id',
+      key: 'id',
+      render: (id) => <a href={`https://testnet.aurorascan.dev/address/${id}`} target="_blank" rel="noreferrer">{id.toString().slice(0, 6).concat("...").concat(id.toString().slice(-4))}</a>,
+    },
+    {
+      title: 'Timestamp Added',
+      dataIndex: 'timestamp_added',
+      key: 'timestamp_added',
+    },
+    {
+      title: 'Last Updated',
+      dataIndex: 'last_tx_timestamp',
+      key: 'last_tx_timestamp',
+    },
+    {
+      title: 'Tx Hash',
+      dataIndex: 'last_tx_hash',
+      key: 'last_tx_hash',
+      render: (last_tx_hash) => <a href={`https://testnet.aurorascan.dev/tx/${last_tx_hash}`} target="_blank" rel="noreferrer">{last_tx_hash.toString().slice(2, 6).concat("...").concat(last_tx_hash.toString().slice(-4))}</a>,
+    },
+    {
+      title: 'Status',
+      key: 'state',
+      render: () => (
+        <span>
+          <Badge status="processing" />
+          Syncing
+        </span>
+      ),
+    }
+  ];
+
+  const data: DataType[] = [
+    {
+      key: '1',
+      id: '0x0000000000000000000000000000000000000000',
+      timestamp_added: 1620000000,
+      last_tx_timestamp: '2021-05-01 12:00:00',
+      last_tx_hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+      status: 'Syncing'
+    },
+    {
+      key: '2',
+      id: '0x0000000000000000000000000000000000000001',
+      timestamp_added: 1620000000,
+      last_tx_timestamp: '2021-05-01 12:00:00',
+      last_tx_hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+      status: 'Syncing'
+    },
+    {
+      key: '3',
+      id: '0x0000000000000000000000000000000000000002',
+      timestamp_added: 1620000000,
+      last_tx_timestamp: '2021-05-01 12:00:00',
+      last_tx_hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+      status: 'Syncing'
+    }
+  ];
+
+
+  // render the table in the DOM
+  const renderTable = () => {
+    return (
+      <Table
+        columns={columns}
+        dataSource={data}
+        pagination={{ pageSize: 50 }}
+        scroll={{ y: 240 }}
+      />
+    )
+  }
+
+
   const onDatePickerChange: DatePickerProps['onChange'] = (
     date,
     dateString
@@ -83,6 +182,8 @@ export default function Home() {
             <Button style={{ marginLeft: 8 }}>Cancel</Button>
           </FormItem>
         </Form>
+        <Table columns={columns} dataSource={data} />
+        {renderTable()}
       </div>
     </div>
   )
