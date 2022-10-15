@@ -24,8 +24,7 @@ type ContractType = {
   id?: string,
   timestamp_added?: string | number,
   last_tx_timestamp?: string | number,
-  last_tx_hash?: any,
-  status: "submitted" | "syncing",
+  last_tx_hash?: string,
 };
 
 const Home: NextPage = () => {
@@ -53,40 +52,36 @@ const Home: NextPage = () => {
       key: "last_tx_hash",
       label: "Tx Hash"
     },
-    {
-      key: "status",
-      label: "Status",
-    }
   ];
 
-  const contracts: ContractType[] = [
-    {
-      key: "0x0000000000000000000000000000000000000001",
-      id: "0x0000000000000000000000000000000000000001",
-      timestamp_added: "2021-09-01T00:00:00.000Z",
-      last_tx_timestamp: "2021-09-01T00:00:00.000Z",
-      last_tx_hash: "0x0000000000000000000000000000000000000000000000000000000000000000",
-      status: "submitted",
-    },
-    {
-      key: "0x0000000000000000000000000000000000000002",
-      id: "0x0000000000000000000000000000000000000002",
-      timestamp_added: "2021-09-01T00:00:00.000Z",
-      last_tx_timestamp: "2021-09-01T00:00:00.000Z",
-      last_tx_hash: "0x0000000000000000000000000000000000000000000000000000000000000000",
-      status: "submitted",
-    },
-    {
-      key: "0x0000000000000000000000000000000000000003",
-      id: "0x0000000000000000000000000000000000000003",
-      timestamp_added: "2021-09-01T00:00:00.000Z",
-      last_tx_timestamp: "2021-09-01T00:00:00.000Z",
-      last_tx_hash: "0x0000000000000000000000000000000000000000000000000000000000000000",
-      status: "submitted",
-    },
-  ];
+  // const contracts: ContractType[] = [
+  //   {
+  //     key: "0x0000000000000000000000000000000000000001",
+  //     id: "0x0000000000000000000000000000000000000001",
+  //     timestamp_added: "2021-09-01T00:00:00.000Z",
+  //     last_tx_timestamp: "2021-09-01T00:00:00.000Z",
+  //     last_tx_hash: "0x0000000000000000000000000000000000000000000000000000000000000000",
+  //     status: "submitted",
+  //   },
+  //   {
+  //     key: "0x0000000000000000000000000000000000000002",
+  //     id: "0x0000000000000000000000000000000000000002",
+  //     timestamp_added: "2021-09-01T00:00:00.000Z",
+  //     last_tx_timestamp: "2021-09-01T00:00:00.000Z",
+  //     last_tx_hash: "0x0000000000000000000000000000000000000000000000000000000000000000",
+  //     status: "submitted",
+  //   },
+  //   {
+  //     key: "0x0000000000000000000000000000000000000003",
+  //     id: "0x0000000000000000000000000000000000000003",
+  //     timestamp_added: "2021-09-01T00:00:00.000Z",
+  //     last_tx_timestamp: "2021-09-01T00:00:00.000Z",
+  //     last_tx_hash: "0x0000000000000000000000000000000000000000000000000000000000000000",
+  //     status: "submitted",
+  //   },
+  // ];
 
-  const renderCell = (contract: ContractType, columnKey: React.Key) => {
+  const renderCell = (contract: { [x: string]: any; key?: string | undefined; id?: string | undefined; timestamp_added?: string | number | undefined; last_tx_timestamp?: string | number | undefined; last_tx_hash?: string | undefined; }, columnKey: React.Key) => {
     const cellValue = contract[columnKey];
     switch (columnKey) {
       case "id":
@@ -122,8 +117,8 @@ const Home: NextPage = () => {
             </Link>
           </>
         );
-        case "status":
-        return <Badge variant="points" color="primary" type={contract?.status}>{cellValue}</Badge>;
+        // case "status":
+        // return <Badge variant="points" color="primary">{cellValue}</Badge>;
         
       default:
         return cellValue;
@@ -164,7 +159,7 @@ const Home: NextPage = () => {
           timestamp_added: contract.timestamp_added,
           last_tx_timestamp: contract.last_tx_timestamp,
           last_tx_hash: contract.last_tx_hash,
-          status: "syncing",
+          
         });
       });
 
@@ -251,9 +246,9 @@ const Home: NextPage = () => {
         </h1>
 
         <p className={styles.description}>
-          <p>1. Submit an Aurora testnet contract address using a supported standard.</p>
+          {/* <p>1. Submit an Aurora testnet contract address using a supported standard.</p>
           <p>2. Call functions that fire transfer events from your contract.</p>
-          <p>3. Query the subgraph.</p>
+          <p>3. Query the subgraph.</p> */}
         </p>
 
         <Container>
@@ -269,7 +264,7 @@ const Home: NextPage = () => {
           </Grid>
         </Grid.Container>
         <Table
-          aria-label="Example table with custom cells"
+          aria-label="table"
           css={{ overflowX: "auto" }}
           selectionMode="none"
         >
