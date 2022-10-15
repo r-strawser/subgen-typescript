@@ -3,7 +3,7 @@
 }
 
 .main {
-  min-height: 100vh;
+  min-height: 70vh;
   padding: 4rem 0;
   flex: 1;
   display: flex;
@@ -56,6 +56,11 @@
   font-size: 1.5rem;
 }
 
+.nextTable {
+  /* display: flex; */
+  overflow-x: auto;
+}
+
 .code {
   background: #fafafa;
   border-radius: 5px;
@@ -65,24 +70,13 @@
     Bitstream Vera Sans Mono, Courier New, monospace;
 }
 
-.grid {
+
+.nextGrid {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  max-width: 800px;
-}
-
-.card {
-  margin: 1rem;
-  padding: 1.5rem;
-  text-align: left;
-  color: inherit;
-  text-decoration: none;
-  border: 1px solid #eaeaea;
-  border-radius: 10px;
-  transition: color 0.15s ease, border-color 0.15s ease;
-  max-width: 300px;
+  max-width: 100%;
 }
 
 .card:hover,
