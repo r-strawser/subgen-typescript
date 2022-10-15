@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from "../styles/Home.module.css";
-import { Grid, Card, Text, Table, Row, Col, Tooltip, User } from '@nextui-org/react';
+import { Container, Grid, Card, Text, Table, Row, Col, Tooltip, User } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import { FETCH_CONTRACT_ADDED } from "../queries";
 import { subgraphQuery } from "../utils";
@@ -238,6 +238,7 @@ const Home: NextPage = () => {
         </Grid.Container>
       </main> */}
 
+      
       <main className={styles.main}>
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
@@ -248,23 +249,21 @@ const Home: NextPage = () => {
           <code className={styles.code}>pages/index.tsx</code>
         </p>
 
+        <Container>
         <Grid.Container gap={2} justify="center">
           <Grid xs={12} sm={6} md={4}>
-            {renderSimpleCard('Total Users', 100)}
+            {renderSimpleCard('Total Contracts Syncing', 100)}
           </Grid>
           <Grid xs={12} sm={6} md={4}>
-            {renderSimpleCard('Total Orders', 100)}
+            {renderSimpleCard('Template Type', 'Transfers')}
           </Grid>
           <Grid xs={12} sm={6} md={4}>
-            {renderSimpleCard('Total Revenue', 100)}
+            {renderSimpleCard('Supported Contract Interfaces', 'ERC721')}
           </Grid>
         </Grid.Container>
         <Table
           aria-label="Example table with custom cells"
-          css={{
-            height: "auto",
-            minWidth: "100%",
-          }}
+          css={{ overflowX: "auto" }}
           selectionMode="none"
         >
           <Table.Header columns={columns}>
@@ -286,54 +285,8 @@ const Home: NextPage = () => {
             )}
           </Table.Body>
         </Table>
-        {renderSimpleCard("Total Contracts Syncing", 100)}
-
-        <div className={styles.grid}>
-
-        <Grid.Container gap={2} justify="center">
-          <Grid xs={12} sm={6} md={4}>
-            {renderSimpleCard('Total Users', 100)}
-          </Grid>
-          <Grid xs={12} sm={6} md={4}>
-            {renderSimpleCard('Total Orders', 100)}
-          </Grid>
-          <Grid xs={12} sm={6} md={4}>
-            {renderSimpleCard('Total Revenue', 100)}
-          </Grid>
-        </Grid.Container>
-        {renderSimpleCard("Total Contracts Syncing", 100)}
-        {/* {getTableData} */}
-          
-        {/* <Table
-          aria-label="Example table with custom cells"
-          css={{
-            height: "auto",
-            minWidth: "100%",
-          }}
-          selectionMode="none"
-        >
-          <Table.Header columns={columns}>
-            {(column) => (
-              <Table.Column
-                key={column.key}
-              >
-                {column.label}
-              </Table.Column>
-            )}
-          </Table.Header>
-          <Table.Body items={tableData}>
-            {(item: ContractType) => (
-              <Table.Row>
-                {(columnKey) => (
-                  <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>
-                )}
-              </Table.Row>
-            )}
-          </Table.Body>
-        </Table> */}
-
-          
-        </div>
+        </Container>
+        {/* {renderSimpleCard("Total Contracts Syncing", 100)} */}
       </main>
 
       {/* <footer className={styles.footer}>
