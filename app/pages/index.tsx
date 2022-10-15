@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from "../styles/Home.module.css";
-import { Container, Grid, Card, Text, Table, Row, Col, Tooltip, User } from '@nextui-org/react';
+import { Container, Grid, Card, Text, Table, Row, Col, Tooltip, User, Link, Badge } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import { FETCH_CONTRACT_ADDED } from "../queries";
 import { subgraphQuery } from "../utils";
@@ -24,7 +24,8 @@ type ContractType = {
   id?: string,
   timestamp_added?: string | number,
   last_tx_timestamp?: string | number,
-  last_tx_hash?: any
+  last_tx_hash?: any,
+  status: "submitted" | "syncing",
 };
 
 const Home: NextPage = () => {
@@ -51,6 +52,10 @@ const Home: NextPage = () => {
     {
       key: "last_tx_hash",
       label: "Tx Hash"
+    },
+    {
+      key: "status",
+      label: "Status",
     }
   ];
 
@@ -60,21 +65,24 @@ const Home: NextPage = () => {
       id: "0x0000000000000000000000000000000000000001",
       timestamp_added: "2021-09-01T00:00:00.000Z",
       last_tx_timestamp: "2021-09-01T00:00:00.000Z",
-      last_tx_hash: "0x0000000000000000000000000000000000000000000000000000000000000000"
+      last_tx_hash: "0x0000000000000000000000000000000000000000000000000000000000000000",
+      status: "submitted",
     },
     {
       key: "0x0000000000000000000000000000000000000002",
       id: "0x0000000000000000000000000000000000000002",
       timestamp_added: "2021-09-01T00:00:00.000Z",
       last_tx_timestamp: "2021-09-01T00:00:00.000Z",
-      last_tx_hash: "0x0000000000000000000000000000000000000000000000000000000000000000"
+      last_tx_hash: "0x0000000000000000000000000000000000000000000000000000000000000000",
+      status: "submitted",
     },
     {
       key: "0x0000000000000000000000000000000000000003",
       id: "0x0000000000000000000000000000000000000003",
       timestamp_added: "2021-09-01T00:00:00.000Z",
       last_tx_timestamp: "2021-09-01T00:00:00.000Z",
-      last_tx_hash: "0x0000000000000000000000000000000000000000000000000000000000000000"
+      last_tx_hash: "0x0000000000000000000000000000000000000000000000000000000000000000",
+      status: "submitted",
     },
   ];
 
@@ -83,9 +91,14 @@ const Home: NextPage = () => {
     switch (columnKey) {
       case "id":
         return (
+          <>
+            <Link href={`https://testnet.aurorascan.dev/address/${cellValue}`} isExternal>
             <Text b size={14} css={{ tt: "capitalize" }}>
-              {cellValue}
+              {cellValue.toString().slice(0, 6).concat("...").concat(cellValue.toString().slice(-4))}
             </Text>
+            {/* <a href={`https://testnet.aurorascan.dev/address/${cellValue}`} target="_blank" rel="noreferrer">{cellValue.toString().slice(0, 6).concat("...").concat(cellValue.toString().slice(-4))}</a> */}
+            </Link>
+          </>
         );
       case "timestamp_added":
         return (
@@ -101,10 +114,17 @@ const Home: NextPage = () => {
         );
         case "last_tx_hash":
         return (
+          <>
+            <Link href={`https://testnet.aurorascan.dev/tx/${cellValue}`} block isExternal>
             <Text b size={14} css={{ tt: "capitalize" }}>
-              {cellValue}
+              {cellValue.toString().slice(2, 6).concat("...").concat(cellValue.toString().slice(-4))}
             </Text>
+            </Link>
+          </>
         );
+        case "status":
+        return <Badge variant="points" color="primary" type={contract?.status}>{cellValue}</Badge>;
+        
       default:
         return cellValue;
     }
@@ -143,7 +163,8 @@ const Home: NextPage = () => {
           id: contract.id,
           timestamp_added: contract.timestamp_added,
           last_tx_timestamp: contract.last_tx_timestamp,
-          last_tx_hash: contract.last_tx_hash
+          last_tx_hash: contract.last_tx_hash,
+          status: "syncing",
         });
       });
 
@@ -224,35 +245,21 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {/* <main>
-        <Grid.Container gap={2} justify="center">
-          <Grid xs={12} sm={6} md={4}>
-            {renderSimpleCard('Total Users', 100)}
-          </Grid>
-          <Grid xs={12} sm={6} md={4}>
-            {renderSimpleCard('Total Orders', 100)}
-          </Grid>
-          <Grid xs={12} sm={6} md={4}>
-            {renderSimpleCard('Total Revenue', 100)}
-          </Grid>
-        </Grid.Container>
-      </main> */}
-
-      
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Simple Subgraph Factory
         </h1>
 
         <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.tsx</code>
+          <p>1. Submit an Aurora testnet contract address using a supported standard.</p>
+          <p>2. Call functions that fire transfer events from your contract.</p>
+          <p>3. Query the subgraph.</p>
         </p>
 
         <Container>
         <Grid.Container gap={2} justify="center">
           <Grid xs={12} sm={6} md={4}>
-            {renderSimpleCard('Total Contracts Syncing', 100)}
+            {renderSimpleCard('Total Contracts Syncing', tableData.length)}
           </Grid>
           <Grid xs={12} sm={6} md={4}>
             {renderSimpleCard('Template Type', 'Transfers')}
@@ -289,7 +296,7 @@ const Home: NextPage = () => {
         {/* {renderSimpleCard("Total Contracts Syncing", 100)} */}
       </main>
 
-      {/* <footer className={styles.footer}>
+      <footer className={styles.footer}>
         <a
           href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
           target="_blank"
@@ -300,7 +307,7 @@ const Home: NextPage = () => {
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
         </a>
-      </footer> */}
+      </footer>
     </div>
   )
 }
