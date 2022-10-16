@@ -8,17 +8,6 @@ import { FETCH_CONTRACT_ADDED } from "../queries";
 import { subgraphQuery } from "../utils";
 import React from 'react';
 
-type UserType = {
-  id: string | number,
-  name?: string,
-  email?: string,
-  role?: string,
-  team?: string,
-  status: "active" | "paused" | "vacation",
-  age?: string,
-  avatar?: string,
-};
-
 type ContractType = {
   key: string | undefined,
   id?: string,
@@ -87,9 +76,9 @@ const Home: NextPage = () => {
       case "id":
         return (
           <>
-            <Link href={`https://testnet.aurorascan.dev/address/${cellValue}`} isExternal>
+            <Link href={`https://testnet.aurorascan.dev/address/${cellValue}`} target="_blank" rel="noopener noreferrer" isExternal>
             <Text b size={14} css={{ tt: "capitalize" }}>
-              {cellValue.toString().slice(0, 6).concat("...").concat(cellValue.toString().slice(-4))}
+              {cellValue.toString()}
             </Text>
             {/* <a href={`https://testnet.aurorascan.dev/address/${cellValue}`} target="_blank" rel="noreferrer">{cellValue.toString().slice(0, 6).concat("...").concat(cellValue.toString().slice(-4))}</a> */}
             </Link>
@@ -110,7 +99,7 @@ const Home: NextPage = () => {
         case "last_tx_hash":
         return (
           <>
-            <Link href={`https://testnet.aurorascan.dev/tx/${cellValue}`} block isExternal>
+            <Link href={`https://testnet.aurorascan.dev/tx/${cellValue}`} target="_blank" rel="noopener noreferrer" block isExternal>
             <Text b size={14} css={{ tt: "capitalize" }}>
               {cellValue.toString().slice(2, 6).concat("...").concat(cellValue.toString().slice(-4))}
             </Text>
@@ -255,7 +244,10 @@ const Home: NextPage = () => {
         </Text>
 
         <div className={styles.description}>
-          <Text h4>1. Submit an Aurora testnet contract address using a supported standard.</Text>
+          <Text h4>
+          1. Submit an Aurora testnet contract address that is using a supported standard <a className={styles.submissionText} href="https://testnet.aurorascan.dev/address/0xA03e6e0ACd9C6Ee4403df08B1F4B2a4eccDf72a9#writeContract" target="_blank" rel="noopener noreferrer" >here</a>.
+          </Text>
+
           <Text h4>2. Call functions that fire transfer events from your contract.</Text>
           <Text h4>3. Query the subgraph.</Text>
         </div>

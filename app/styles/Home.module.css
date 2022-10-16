@@ -91,6 +91,10 @@
   font-size: 1.5rem;
 }
 
+.submissionText {
+  color: #0070f3;
+}
+
 .card p {
   margin: 0;
   font-size: 1.25rem;
