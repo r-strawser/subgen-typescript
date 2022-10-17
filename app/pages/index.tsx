@@ -18,9 +18,8 @@ type ContractType = {
 
 const Home: NextPage = () => {
 
-  const [isLoading, setLoading] = useState(false);
   const [tableData, setTableData] = useState<any>([]);
-
+  
   const forceUpdate = React.useReducer(() => ({}), {})[1];
 
   
@@ -43,33 +42,6 @@ const Home: NextPage = () => {
     },
   ];
 
-  // const contracts: ContractType[] = [
-  //   {
-  //     key: "0x0000000000000000000000000000000000000001",
-  //     id: "0x0000000000000000000000000000000000000001",
-  //     timestamp_added: "2021-09-01T00:00:00.000Z",
-  //     last_tx_timestamp: "2021-09-01T00:00:00.000Z",
-  //     last_tx_hash: "0x0000000000000000000000000000000000000000000000000000000000000000",
-  //     status: "submitted",
-  //   },
-  //   {
-  //     key: "0x0000000000000000000000000000000000000002",
-  //     id: "0x0000000000000000000000000000000000000002",
-  //     timestamp_added: "2021-09-01T00:00:00.000Z",
-  //     last_tx_timestamp: "2021-09-01T00:00:00.000Z",
-  //     last_tx_hash: "0x0000000000000000000000000000000000000000000000000000000000000000",
-  //     status: "submitted",
-  //   },
-  //   {
-  //     key: "0x0000000000000000000000000000000000000003",
-  //     id: "0x0000000000000000000000000000000000000003",
-  //     timestamp_added: "2021-09-01T00:00:00.000Z",
-  //     last_tx_timestamp: "2021-09-01T00:00:00.000Z",
-  //     last_tx_hash: "0x0000000000000000000000000000000000000000000000000000000000000000",
-  //     status: "submitted",
-  //   },
-  // ];
-
   const renderCell = (contract: any, columnKey: React.Key) => {
     const cellValue = contract[columnKey];
     switch (columnKey) {
@@ -80,7 +52,6 @@ const Home: NextPage = () => {
             <Text b size={14} css={{ tt: "capitalize" }}>
               {cellValue.toString()}
             </Text>
-            {/* <a href={`https://testnet.aurorascan.dev/address/${cellValue}`} target="_blank" rel="noreferrer">{cellValue.toString().slice(0, 6).concat("...").concat(cellValue.toString().slice(-4))}</a> */}
             </Link>
           </>
         );
@@ -138,7 +109,7 @@ const Home: NextPage = () => {
 
 
       const _contracts: ContractType[] = _rawData.contracts[0].as721;
-      console.log("the contracts", _contracts);
+      // console.log("the contracts", _contracts);
       let _tableData: ContractType[] = [];
 
       _contracts.forEach((contract: ContractType) => {
@@ -152,28 +123,14 @@ const Home: NextPage = () => {
         });
       });
 
-
-      // if (_contracts.length > 0) {
-      //   if(_contracts.id !== null) {
-      //     console.log("hello", _contracts.id);
-      //   }
-      // }
-
-      
-
-
-
-      console.log("tableData", _tableData);
+      // console.log("tableData", _tableData);
       setTableData(_tableData);
-      console.log("data", _rawData);
+       //console.log("data", _rawData);
       forceUpdate();
     } catch (error) {
       console.log("error", error);
     }
   }
-
-  
-
   
 
   const renderSimpleCard = (title: string, content: any) => {
@@ -185,32 +142,6 @@ const Home: NextPage = () => {
       </Card.Body>
     </Card>
     );
-  }
-
-  const renderKpiGrid = () => {
-    return (
-      <Grid.Container gap={2} justify="center">
-        <Grid xs={12} md={6} lg={4}>
-          {renderSimpleCard("Total Users", 100)}
-        </Grid>
-        <Grid xs={12} md={6} lg={4}>
-          {renderSimpleCard("Total Users", 100)}
-        </Grid>
-        <Grid xs={12} md={6} lg={4}>
-          {renderSimpleCard("Total Users", 100)}
-        </Grid>
-      </Grid.Container>
-    );
-  }
-
-
-  const renderTable = () => {
-    return (
-      <Table>
-
-      </Table>
-    )
-
   }
 
   useEffect(() => {
@@ -230,9 +161,6 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        {/* <h1 className={styles.title}>
-          Simple Subgraph Factory
-        </h1> */}
         <Text 
           h1
           size={60}
@@ -290,7 +218,6 @@ const Home: NextPage = () => {
           </Table.Body>
         </Table>
         </Container>
-        {/* {renderSimpleCard("Total Contracts Syncing", 100)} */}
       </main>
 
       <footer className={styles.footer}>
